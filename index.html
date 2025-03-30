@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[LOFI] Chillstep - Hypixel Guild</title>
+    <style>
+        /* Base Styles */
+        :root {
+            --background: #070708;
+            --foreground: #fafafa;
+            --card: #070708;
+            --card-foreground: #fafafa;
+            --popover: #070708;
+            --popover-foreground: #fafafa;
+            --primary: #4d8efc;
+            --primary-foreground: #fafafa;
+            --secondary: #191919;
+            --secondary-foreground: #fafafa;
+            --muted: #191919;
+            --muted-foreground: #a6a6ad;
+            --accent: #191919;
+            --accent-foreground: #fafafa;
+            --destructive: #7d1a1a;
+            --destructive-foreground: #fafafa;
+            --border: #191919;
+            --input: #191919;
+            --ring: #d3d3d8;
+            --radius: 0.5rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border-color: var(--border);
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--foreground);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .min-h-screen {
+            min-height: 100vh;
+        }
+
+        /* Button */
+        .button {
+            display: inline-block;
+            background-color: #3b82f6;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #2563eb;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            width: 100%;
+            z-index: 50;
+            background-color: rgba(7, 7, 8, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(25, 25, 25, 0.4);
+        }
+
+        .nav-container {
+            height: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #4d8efc, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-desktop {
+            display: none;
+        }
+
+        .nav-link {
+            position: relative;
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #4d8efc;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background-color: #4d8efc;
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-mobile-button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .nav-mobile {
+            display: none;
+            background-color: var(--background);
+            border-bottom: 1px solid rgba(25, 25, 25, 0.4);
+            padding: 1rem 0;
+        }
+
+        .nav-mobile.open {
+            display: block;
+        }
+
+        .nav-mobile .nav-link {
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 1rem;
+        }
+
+        .section-alt {
+            background-color: rgba(25, 25, 25, 0.2);
+        }
+
+        /* Home Section */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 5rem;
+        }
+
+        .home-content {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .home-text {
+            flex: 1;
+        }
+
+        .home-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .home-description {
+            font-size: 1.125rem;
+            color: #a6a6ad;
+            margin-bottom: 2rem;
+        }
+
+        .home-image {
+            flex: 1;
+        }
+
+        .home-image img {
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Section Headers */
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(to right, #4d8efc, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* About Section */
+        .features {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: rgba(7, 7, 8, 0.5);
+            backdrop-filter: blur(4px);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid rgba(25, 25, 25, 0.4);
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #4d8efc, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .feature-text {
+            color: #a6a6ad;
+        }
+
+        /* Staff Section */
+        .staff-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .staff-card {
+            background-color: rgba(7, 7, 8, 0.5);
+            backdrop-filter: blur(4px);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid rgba(25, 25, 25, 0.4);
+            text-align: center;
+        }
+
+        .staff-avatar {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+        }
+
+        .staff-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .staff-role {
+            color: #4d8efc;
+            margin-bottom: 0.5rem;
+        }
+
+        .staff-bio {
+            color: #a6a6ad;
+        }
+
+        /* Contact Section */
+        .contact-content {
+            max-width: 42rem;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-text {
+            color: #a6a6ad;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(25, 25, 25, 0.4);
+            text-align: center;
+            color: #a6a6ad;
+        }
+
+        /* Media Queries */
+        @media (min-width: 768px) {
+            .nav-desktop {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+            }
+
+            .nav-mobile-button {
+                display: none;
+            }
+
+            .home-content {
+                flex-direction: row;
+            }
+
+            .home-title {
+                font-size: 3.75rem;
+            }
+
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .staff-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section-title {
+                font-size: 2.25rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .features {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .staff-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">
+                <span class="logo-text">[LOFI] Chillstep</span>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="nav-desktop">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#staff" class="nav-link">Staff</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <a href="https://discord.gg/9A2AabaJTV" target="_blank" rel="noopener noreferrer" class="button">Join Discord</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="nav-mobile-button" onclick="toggleMenu()" aria-label="Toggle Menu">
+                <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" x2="20" y1="12" y2="12"></line>
+                    <line x1="4" x2="20" y1="6" y2="6"></line>
+                    <line x1="4" x2="20" y1="18" y2="18"></line>
+                </svg>
+                <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                    <path d="M18 6 6 18"></path>
+                    <path d="m6 6 12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="nav-mobile">
+            <div class="container">
+                <a href="#home" class="nav-link" onclick="closeMenu()">Home</a>
+                <a href="#about" class="nav-link" onclick="closeMenu()">About</a>
+                <a href="#staff" class="nav-link" onclick="closeMenu()">Staff</a>
+                <a href="#contact" class="nav-link" onclick="closeMenu()">Contact</a>
+                <a href="https://discord.gg/9A2AabaJTV" target="_blank" rel="noopener noreferrer" class="button" style="display: block; margin-top: 1rem; text-align: center;">Join Discord</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section">
+        <div class="container">
+            <div class="home-content">
+                <div class="home-text">
+                    <h1 class="home-title">Welcome to <span style="background: linear-gradient(to right, #4d8efc, #3b82f6); -webkit-background-clip: text; background-clip: text; color: transparent;">Chillstep</span></h1>
+                    <p class="home-description">Join our community of chill Hypixel players where friendship meets gaming excellence.</p>
+                    <a href="https://discord.gg/9A2AabaJTV" target="_blank" rel="noopener noreferrer" class="button">Join Our Community</a>
+                </div>
+                <div class="home-image">
+                    <img src="https://images.unsplash.com/photo-1667139883566-9650974de132" alt="Lofi Gaming Scene">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">About Our Guild</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3 class="feature-title">Guild Ranks</h3>
+                    <p class="feature-text">Progress through our ranks: Member → Chill → Chillstep → Staff → Guild Master</p>
+                </div>
+                <div class="feature-card">
+                    <h3 class="feature-title">Info</h3>
+                    <p class="feature-text">Achieve Chill rank with 300k+ GXP in one week. Apply for Chillstep to help invite new members.</p>
+                </div>
+                <div class="feature-card">
+                    <h3 class="feature-title">Community</h3>
+                    <p class="feature-text">Join a friendly community of chill Hypixel players. Hang out in the Discord server and chill in one of our Lofi Vcs!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Staff Section -->
+    <section id="staff" class="section">
+        <div class="container">
+            <h2 class="section-title">Our Staff Team</h2>
+            <div class="staff-grid">
+                <div class="staff-card">
+                    <img class="staff-avatar" src="1iph.png" alt="Guild Master Avatar">
+                    <h3 class="staff-name">1iph</h3>
+                    <p class="staff-role">[GM] Guild Master</p>
+                    <p class="staff-bio">Leading the guild with dedication and vision.</p>
+                </div>
+                <div class="staff-card">
+                    <img class="staff-avatar" src="Zonked.png" alt="Staff Member Avatar">
+                    <h3 class="staff-name">Zonked (ZNKD)</h3>
+                    <p class="staff-role">[STAFF] Staff Member</p>
+                    <p class="staff-bio">Supporting the guild and its members.</p>
+                </div>
+                <div class="staff-card">
+                    <img class="staff-avatar" src="Dylan.png" alt="Staff Member Avatar">
+                    <h3 class="staff-name">DylanDye</h3>
+                    <p class="staff-role">[CS] Chillstep</p>
+                    <p class="staff-bio">Our #1 inviter</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">Join Our Community</h2>
+            <div class="contact-content">
+                <p class="contact-text">Ready to join the most chill guild on Hypixel? Connect with us on Discord!</p>
+                <a href="https://discord.gg/9A2AabaJTV" target="_blank" rel="noopener noreferrer" class="button">Join Our Discord</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© Made by Silence (1iph), All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            if (mobileMenu.classList.contains('open')) {
+                mobileMenu.classList.remove('open');
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+            } else {
+                mobileMenu.classList.add('open');
+                menuIcon.style.display = 'none';
+                closeIcon.style.display = 'block';
+            }
+        }
+
+        function closeMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            mobileMenu.classList.remove('open');
+            menuIcon.style.display = 'block';
+            closeIcon.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
